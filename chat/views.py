@@ -7,7 +7,7 @@ from .models import ChatMessage
 import requests
 import google.generativeai as genai
 import os
-genai.configure(api_key="AIzaSyB0-yYoOwh_RiayHltkG0dxoZXnNcnJxA0")
+genai.configure(api_key=os.environ["GEM_API_KEY"])
 
 def chat_view(request):
     if request.method == "POST":

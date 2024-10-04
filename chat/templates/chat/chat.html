@@ -1,0 +1,106 @@
+<!-- templates/chat/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .chat-box {
+            width: 80%;
+            margin: auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            max-height: 500px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .user-message {
+            text-align: left;
+            color: #0000ff;
+        }
+        .bot-response {
+            text-align: right;
+            color: #ff5733;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chat with GPT</h1>
+
+    <div class="chat-box">
+        {% for message in chat_history %}
+        <div class="message user-message">
+            <strong>User:</strong> {{ message.user_message }} <br>
+            <small>{{ message.timestamp }}</small>
+        </div>
+        <div class="message bot-response">
+            <strong>Bot:</strong> {{ message.bot_response }} <br>
+            <small>{{ message.timestamp }}</small>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form id="chat-form" method="POST">
+        {% csrf_token %}
+        <input type="text" name="message" id="message" placeholder="Type your message here...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value;
+
+            const response = await fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'message': message
+                })
+            });
+
+            const data = await response.json();
+            const chatBox = document.querySelector('.chat-box');
+            chatBox.innerHTML += `
+                <div class="message user-message">
+                    <strong>User:</strong> ${data.message} <br>
+                </div>
+                <div class="message bot-response">
+                    <strong>Bot:</strong> ${data.response} <br>
+                </div>
+            `;
+            messageInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
+
+</body>
+</html>

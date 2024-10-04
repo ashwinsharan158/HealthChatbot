@@ -1,0 +1,17 @@
+{
+    "FirstName": "Evelyn",
+    "LastName": "Thompson",
+    "DateOfBirth": "1954-03-12",
+    "PhoneNumber": "(555) 987-6543",
+    "Email": "evelyn.thompson54@email.com",
+    "MedicalCondition": "Alzheimer's Disease (Moderate stage)",
+    "MedicationRegimen": {
+      "Donepezil": "10 mg (once daily in the evening)",
+      "Memantine": "20 mg (twice daily)",
+      "VitaminE": "400 IU (once daily)"
+    },
+    "LastAppointmentDateTime": "2024-09-15T10:00:00",
+    "NextAppointmentDateTime": "2024-10-20T09:30:00",
+    "DoctorName": "Dr. Samuel Harris"
+  }
+  
